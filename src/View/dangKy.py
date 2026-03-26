@@ -83,3 +83,48 @@ class RegisterPage(ctk.CTkFrame):
     def xu_ly_dang_ky(self):
         # Chuyển toàn bộ trách nhiệm sang Controller
         self.controller.xu_ly_dang_ky()
+
+
+# ==========================================
+# ĐOẠN CODE TEST GIAO DIỆN VẠN NĂNG (Dùng xong cứ xóa)
+# ==========================================
+if __name__ == "__main__":
+    import sys, os, inspect
+    import customtkinter as ctk
+    from unittest.mock import MagicMock
+
+    # 1. Cố định đường dẫn để không bao giờ bị lỗi mất ảnh
+    current_path = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(os.path.dirname(current_path))
+    if os.path.exists(project_root):
+        os.chdir(project_root)
+        sys.path.append(project_root)
+
+    # 2. Tạo cửa sổ mâm
+    root = ctk.CTk()
+    root.geometry("1000x600")
+    root.title("Ngắm Giao Diện (Chế độ Vạn Năng)")
+
+    # ===============================================================
+    # BẠN CHỈ CẦN SỬA ĐÚNG 1 DÒNG DƯỚI ĐÂY THÀNH TÊN CLASS CỦA BẠN
+    # ===============================================================
+    ClassCanTest = RegisterPage  # Ví dụ: RegisterPage, LoginPage, NhanVienPage...
+
+    # 3. Phép thuật tự động "lấp đầy" mọi tham số mà Class yêu cầu
+    sig = inspect.signature(ClassCanTest.__init__)
+    kwargs = {}
+    for ten_bien, param in sig.parameters.items():
+        if ten_bien in ['self', 'args', 'kwargs']: continue
+        if ten_bien in ['parent', 'master']:
+            kwargs[ten_bien] = root
+        else:
+            kwargs[ten_bien] = MagicMock()  # Nhét hàm giả vào mọi chỗ trống
+
+    # 4. Hiển thị lên màn hình
+    try:
+        app_test = ClassCanTest(**kwargs)
+        app_test.controller = MagicMock()  # Controller giả chặn mọi lỗi CSDL
+        app_test.pack(fill="both", expand=True)
+        root.mainloop()
+    except Exception as e:
+        print(f"Lỗi khi hiển thị: {e}")

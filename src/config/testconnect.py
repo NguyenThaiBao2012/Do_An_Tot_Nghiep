@@ -17,7 +17,7 @@ def main():
 
     if conn and conn.is_connected():
         print(f"   ✅ KẾT NỐI THÀNH CÔNG!")
-        print(f"   -> MySQL Version: {conn.get_server_info()}")
+        print(f"   -> MySQL Version: {conn.server_info}")
         print(f"   -> Database đang chọn: {conn.database}")
     else:
         print("   ❌ KẾT NỐI THẤT BẠI!")

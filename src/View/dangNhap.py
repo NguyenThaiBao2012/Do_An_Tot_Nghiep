@@ -44,7 +44,7 @@ class LoginPage(ctk.CTkFrame):
 
     def tao_giao_dien(self):
         # 1. ẢNH NỀN
-        image_path = "src/images/anhnen.jpg"
+        image_path = "src/images/anh_nen.jpg"
         if os.path.exists(image_path):
             try:
                 pil_image = Image.open(image_path)
